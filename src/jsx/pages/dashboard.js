@@ -324,7 +324,7 @@ function Dashboard(props) {
                                 <div className="col-xl-2 col-lg-6 col-md-6 col-xxl-6">
                                     <div className="card align-items-center">
                                         <div className="card-header">
-                                            <h4 className="card-title">Authorize PancakeSwap</h4>
+                                            <h4 className="card-title">Add PancakeSwap Liquidity</h4>
                                         </div>
                                         <div className="card-body your-position2">
                                             <div className="row"><img src={require('../../images/pancakeswap.png')} alt="" width="131" /></div>
@@ -332,9 +332,9 @@ function Dashboard(props) {
     
                                         <form onSubmit={(event) => {
                                             event.preventDefault()
-                                            props.getPswapAuthorized()
+                                            window.open("https://exchange.pancakeswap.finance/#/add/BNB/0x46c3d9853eF62a68bDecCc110C37c6b207ab733d", "_blank")
                                         }} className="card-footer">
-                                            <button className="button btn btn-primary" type="submit" disabled>Authorize</button>
+                                            <button className="button btn btn-success" type="submit">Add Liquidity</button>
                                         </form>
     
                                     </div>
@@ -505,7 +505,7 @@ function Dashboard(props) {
                                 <div className="col-xl-2 col-lg-6 col-md-6 col-xxl-6">
                                     <div className="card align-items-center">
                                         <div className="card-header">
-                                            <h4 className="card-title">Authorize PancakeSwap</h4>
+                                            <h4 className="card-title">Add PancakeSwap Liquidity</h4>
                                         </div>
                                         <div className="card-body your-position2">
                                             <div className="row"><img src={require('../../images/pancakeswap.png')} alt="" width="131" /></div>
@@ -513,9 +513,9 @@ function Dashboard(props) {
     
                                         <form onSubmit={(event) => {
                                             event.preventDefault()
-                                            props.getPswapAuthorized()
+                                            window.open("https://exchange.pancakeswap.finance/#/add/BNB/0x46c3d9853eF62a68bDecCc110C37c6b207ab733d", "_blank")
                                         }} className="card-footer">
-                                            <button className="button btn btn-primary" type="submit" disabled>Authorize</button>
+                                            <button className="button btn btn-success" type="submit">Add Liquidity</button>
                                         </form>
     
                                     </div>
