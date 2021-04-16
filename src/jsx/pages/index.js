@@ -25,7 +25,7 @@ function Homepage(props) {
                     <div className="row justify-content-between align-items-center">
                         <div className="col-xl-6 col-lg-6 col-12">
                             <div className="intro-content">
-                                <h1>Roll for Collectable Meme Cards with <strong className="text-primary">nonfungiblememe.io</strong>. <br /> Take you chance NOW!
+                                <h1>Roll for Collectable Meme Cards with <strong className="text-primary">NonFungibleMeme.App</strong>. <br /> Take you chance NOW!
                             </h1>
                                 <p>Can you be the the first to collect each card? Can you collect the whole set? Trade with others for their cards or sell them on the marketplace.</p>
                             </div>

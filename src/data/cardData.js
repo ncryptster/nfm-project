@@ -34,7 +34,7 @@ const set1 = [
     {
         cardNumber: '5',
         cardName: 'Chad',
-        cardText: ['Has his own background.', 'Epic', 'Gets three quotes'],
+        cardText: `Has his own background" "Epic" "Gets three quotes`,
         cardRarity: 'Epic',
         fileName: "5.png"
         
