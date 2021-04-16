@@ -88,7 +88,7 @@ function Header2(props) {
     
                                     <div className="header-right d-flex my-2" >
                                         <span className="align-self-center" style={{marginRight: '10px'}}>Connection Status:</span>
-                                        <div className="btn btn-warning align-self-center" style={{marginRight: '10px', width: '150px'}}>Not Authorized</div>
+                                        <div className="btn btn-warning align-self-center" style={{marginRight: '10px', width: '150px'}}>Not Connected</div>
                                         <span className="align-self-center" style={{marginRight: '10px'}} >Welcome User:</span>
                                         <img src={`https://avatars.dicebear.com/api/bottts/${account}.svg`} alt="" width="50" style={{marginRight: '10px'}}/>
                                         <span className="align-self-center" style={{marginRight: '10px'}}>Authorized Status:</span>
