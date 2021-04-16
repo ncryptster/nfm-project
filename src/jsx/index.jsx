@@ -110,7 +110,6 @@ class Index extends Component {
     // eslint-disable-next-line
     const allMyCards = currentCards.filter((item => item.ownerOfCard == this.account))
     let myCards
-    console.log(myCards);
     myCards = getUniqueListBy(allMyCards, 'cardNumber')
     myCards.sort(function (a, b) {
       return a.cardNumber - b.cardNumber;

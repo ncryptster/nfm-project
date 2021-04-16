@@ -27,7 +27,7 @@ function Homepage(props) {
                             <div className="intro-content">
                                 <h1>Roll for Collectable Meme Cards with <strong className="text-primary">nonfungiblememe.io</strong>. <br /> Take you chance NOW!
                             </h1>
-                                <p>Can you be the the first to collect each card? Can you collect the whole set? Trade with others for their cards or sell them on the market place.</p>
+                                <p>Can you be the the first to collect each card? Can you collect the whole set? Trade with others for their cards or sell them on the marketplace.</p>
                             </div>
 
                             <div className="intro-btn">
@@ -149,7 +149,7 @@ function Homepage(props) {
                                 <div className="card-body">
                                     <span><i className="las la-wallet"></i></span>
                                     <h4 className="card-title">Market</h4>
-                                    <p>Have a card that no one else does? Want to sell your cards? Just list it on the market place for your asking price and see if there are any takers.</p>
+                                    <p>Have a card that no one else does? Want to sell your cards? Just list it on the marketplace for your asking price and see if there are any takers.</p>
 
                                     <Link to={'./blank'}> Know More <i className="la la-arrow-right"></i> </Link>
                                 </div>
