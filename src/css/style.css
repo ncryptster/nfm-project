@@ -9492,29 +9492,6 @@ label.error {
     #accordion-faq .card .card-body {
       padding: 0px 0px 10px; }
 
-.intro-video-play {
-  background-color: #fff;
-  background-image: url("./../images/background/2.jpg");
-  background-size: cover;
-  background-position: 0 0;
-  min-height: 363px;
-  margin: 0 auto;
-  position: relative;
-  border-radius: 5px;
-  z-index: 0;
-  margin-bottom: 30px;
-  box-shadow: 0 1.5rem 4rem rgba(22, 28, 45, 0.1); }
-  .intro-video-play::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #5d78ff;
-    opacity: 0.45;
-    border-radius: 5px;
-    z-index: -1; }
 
 .play-btn {
   position: absolute;
@@ -9540,20 +9517,7 @@ label.error {
   border-radius: 5px;
   position: relative;
   padding: 0px 20px; }
-  .apps-download ::before {
-    background-image: url("./../images/app.png");
-    background-color: #3A3361;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    z-index: -1;
-    content: '';
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    border-radius: 5px;
-    opacity: 0.15; }
+  
   .apps-download ::after {
     position: absolute;
     content: '';
