@@ -1,6 +1,6 @@
 import React, {  } from 'react';
 import { Link } from 'react-router-dom';
-import ProgressBar from 'react-bootstrap/ProgressBar';
+
 
 // states of the header
 
@@ -12,6 +12,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 
 function Header2(props) {
     const account = props.account
+    // eslint-disable-next-line
     if (account && props.isPswapAuthorized && props.loaded == false) {
     
         return (
@@ -26,7 +27,7 @@ function Header2(props) {
     
                                     <div className="header-right d-flex my-2" >
                                         <span className="align-self-center" style={{marginRight: '10px'}}>Connection Status:</span>
-                                        <div className="btn btn-primary align-self-center" style={{marginRight: '10px', width: '150px'}}><span class="spinner-border spinner-border-sm align-self-center" role="status" aria-hidden="true" style={{marginRight: '5px'}}></span>Synchronizing</div>
+                                        <div className="btn btn-primary align-self-center" style={{marginRight: '10px', width: '150px'}}><span className="spinner-border spinner-border-sm align-self-center" role="status" aria-hidden="true" style={{marginRight: '5px'}}></span>Synchronizing</div>
                                         <span className="align-self-center" style={{marginRight: '10px'}} >Welcome User:</span>
                                         <img src={`https://avatars.dicebear.com/api/bottts/${account}.svg`} alt="" width="50" style={{marginRight: '10px'}}/>
                                         <span className="align-self-center" style={{marginRight: '10px'}}>Authorized Status:</span>
@@ -40,7 +41,7 @@ function Header2(props) {
             </>
         )
     } 
-    
+    // eslint-disable-next-line
     else if (account && props.isPswapAuthorized && props.loaded == true ) 
     
     {

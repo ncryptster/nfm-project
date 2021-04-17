@@ -106,7 +106,6 @@ class Index extends Component {
 
   async updateCardsArray(num) {
     const currentCards = this.state.cards
-    const account = this.state.account
     // eslint-disable-next-line
     const allMyCards = currentCards.filter((item => item.ownerOfCard == this.account))
     let myCards
@@ -118,8 +117,10 @@ class Index extends Component {
       const element = myCards[i]
       if (element.copiesOwned > 1) {
         const cardBadges = myCards[i].badges
+        // eslint-disable-next-line
         const hasNewBadge = cardBadges.some((item) => {return item.badge == 'New'})
         if (hasNewBadge) {
+          // eslint-disable-next-line
             const newBadge = cardBadges.find((item)=>{return item.badge == 'New'})
             const newBadgeIndex = cardBadges.map(function(e) { return e.badge; }).indexOf('New')
             const numberOfDupes = newBadge.quantity
@@ -150,7 +151,6 @@ class Index extends Component {
       newCards.push(card)
     }
     currentCards.push(...newCards)
-    console.log(currentCards);
     this.setState({ cards: currentCards })
     this.setState({loaded: true})
   }

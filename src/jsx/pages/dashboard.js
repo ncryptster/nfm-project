@@ -15,6 +15,20 @@ function Dashboard(props) {
     myCards.sort(function (a, b) {
       return a.cardNumber - b.cardNumber;
     })
+    // rearange cards to put anything with a New tag to the front of the array
+    for (let i = 0; i < myCards.length; i++) {
+        const element = myCards[i];
+        
+        const cardBadges = element.badges
+        if (element.badges.length > 0) {
+            // eslint-disable-next-line
+            const hasNewBadge = cardBadges.some((item) => {return item.badge == 'New'})
+            if (hasNewBadge) {
+                const indexOfNew = myCards.indexOf(element)
+                myCards.unshift(myCards.splice(indexOfNew, 1)[0]);
+            }
+        }
+    }
     // set card states
     // unique
     for (let i = 0; i < myCards.length; i++) {
@@ -29,9 +43,11 @@ function Dashboard(props) {
       // eslint-disable-next-line
       if (element.numberOfCopies == 1) {
           const cardBadges = myCards[i].badges
+          // eslint-disable-next-line
           if (cardBadges.length == 0) {
               myCards[i].badges.push({badge: 'unique', color: 'warning'})
           }
+          // eslint-disable-next-line
           const hasUniqueBadge = cardBadges.some((item) => {return item.badge == 'unique'})
           if (!hasUniqueBadge) {
             myCards[i].badges.push({badge: 'unique', color: 'warning'})
@@ -52,11 +68,14 @@ function Dashboard(props) {
       const element = myCards[i]
       if (element.copiesOwned > 1) {
           const cardBadges = myCards[i].badges
+          // eslint-disable-next-line
             if (cardBadges.length == 0) {
                 myCards[i].badges.push({badge: 'Duplicates', quantity: element.copiesOwned, color: 'danger'})
         }
+        // eslint-disable-next-line
         const hasDupesBadge = cardBadges.some((item) => {return item.badge == 'Duplicates'})
         if (hasDupesBadge) {
+            // eslint-disable-next-line
             const dupesBadge = cardBadges.find((item)=>{return item.badge == 'Duplicates'})
             const dupesBadgeIndex = cardBadges.map(function(e) { return e.badge; }).indexOf('Duplicates')
             const numberOfDupes = dupesBadge.quantity
@@ -74,6 +93,7 @@ function Dashboard(props) {
     const unique = myCards.filter((item) => {return item.numberOfCopies == 1}).length
     
     //If Account is loaded and isAuthorized but is awaiting card Data
+    // eslint-disable-next-line
     if (account && props.isPswapAuthorized && props.cards.length == 0 && props.loaded == false){
     return (
         <>
@@ -213,6 +233,7 @@ function Dashboard(props) {
         </>
         
     )
+    // eslint-disable-next-line
     } else if (account && props.isPswapAuthorized && props.cards.length != 0 && props.loaded == true){
         return (
             <>
@@ -392,7 +413,8 @@ function Dashboard(props) {
             
         )
         }
-    //If Account is loaded and isAuthorized and card Data is achieved 
+    //If Account is loaded and isAuthorized and card Data is achieved
+    // eslint-disable-next-line
     else if (account && props.isPswapAuthorized && props.cards.length != 0 && props.loaded == false) 
     {
         return (
@@ -527,7 +549,7 @@ function Dashboard(props) {
                                     <div className="card align-items-center border border-primary" width="">
     
                                         <div className="card-body your-position2 ">
-                                        <div className="btn btn-warning align-self-center" style={{width: '200px'}}><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"style={{marginRight: '5px'}}></span>Loading Collection</div>
+                                        <div className="btn btn-warning align-self-center" style={{width: '200px'}}><span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"style={{marginRight: '5px'}}></span>Loading Collection</div>
                                             <div className="row"></div>
                                         </div>
     
