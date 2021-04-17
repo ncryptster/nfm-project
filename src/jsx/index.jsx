@@ -10,10 +10,10 @@ import Dashboard from './pages/dashboard'
 
 class Index extends Component {
 
-  async componentDidMount() {
-    await this.loadWeb3()
-    await this.getData()
-  }
+  // async componentDidMount() {
+  //   await this.loadWeb3()
+  //   await this.getData()
+  // }
 
   async loadWeb3() {
     if (window.ethereum) {
