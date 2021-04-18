@@ -1,6 +1,5 @@
 import React, { } from 'react';
 import { Link } from 'react-router-dom';
-// import { Row, Col, Card } from 'react-bootstrap'
 
 
 
@@ -13,7 +12,7 @@ function Footer1() {
                     <div className="row">
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div className="copyright">
-                                <p>© Copyright 2021 <Link to={'#'}>NonFungibleMeme</Link> I All Rights Reserved</p>
+                                <p>© Copyright 2021 <Link to={'#'}>NonFungibleMeme</Link> All Rights Reserved</p>
                             </div>
                         </div>
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">

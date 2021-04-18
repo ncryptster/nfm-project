@@ -198,7 +198,7 @@ function Homepage(props) {
                                     <img className="img-fluid" src={require('./../../images/binance.svg')} alt="" />
                                 </div>
                                 <h3>Binance Smart Chain </h3>
-                                <p>ERC-721 non-fungable token smart contract deployed on the Binance Smart Chain a new fork of the Ethereum Network
+                                <p>Deployed on the Binance Smart Chain to save your wallet the pain of gas fees, get in on NFTs on a new and booming ecosystem.
                                 </p>
                             </div>
                         </div>
@@ -207,8 +207,8 @@ function Homepage(props) {
                                 <div className="promo-content-img">
                                     <img className="img-fluid" src={require('./../../images/dapp.svg')} alt="" />
                                 </div>
-                                <h3>Decentralized Application</h3>
-                                <p>Decentralized applications (dApps) exist and run on a blockchain or P2P network of computers instead of a single computer</p>
+                                <h3>Powered by IPFS</h3>
+                                <p>Utilizing the The InterPlanetary File System, the Non-Fungible Meme platform stores your art in a truely decentralized way</p>
                             </div>
                         </div>
                         <div className="col-xl-4 col-lg-4 col-md-4">
@@ -216,8 +216,8 @@ function Homepage(props) {
                                 <div className="promo-content-img">
                                     <img className="img-fluid" src={require('./../../images/cbp.svg')} alt="" />
                                 </div>
-                                <h3>Industry best practices</h3>
-                                <p>Using the Metamask Interface ensures the privacy of you wallet and tokens. This information is never stored on our servers.</p>
+                                <h3>Non-Fungible Tokens</h3>
+                                <p>Based on Ethereum's ERC-721 platform, each meme created is a fully compatible and functional Non-Fungible Token (NFT)</p>
                             </div>
                         </div>
                     </div>
