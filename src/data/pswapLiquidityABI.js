@@ -49,4 +49,4 @@ export const pswapLiquidityABI=[
 
 
 ] 
-export const psawpContractAddress = '0xA30aD46BA266B31Cd68fA244B91b8497285Ba3A4'
+export const psawpContractAddress = '0xBD539D678De5aA2bed2681f6AcA8dfD3a73ec49f'

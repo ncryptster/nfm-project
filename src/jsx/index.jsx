@@ -18,7 +18,7 @@ class Index extends Component {
   }
 
   async connectWeb3() {
-    const wrongChain = (payload) => toast.dark('⛓️ Plese connect to the Binance Test Net ChainID 97 to enable this App', {
+    const wrongChain = (payload) => toast.dark('⛓️ Plese connect to the Binance Test Net ChainID 56 to enable this App', {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -55,7 +55,7 @@ class Index extends Component {
                 method: 'eth_chainId'
             })
             // eslint-disable-next-line
-            const correctChainId = chainId == 97
+            const correctChainId = chainId == 56
             this.setState({ correctChainId })
             if (!correctChainId) {
               wrongChain()
