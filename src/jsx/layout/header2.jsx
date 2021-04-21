@@ -11,19 +11,20 @@ import { Link } from 'react-router-dom';
 
 
 function Header2(props) {
+    
     const account = props.account
     // eslint-disable-next-line
-    if (account && props.isPswapAuthorized && props.loaded == false) {
+    if (account && props.isPswapAuthorized && props.loaded == false && props.correctChainId) {
     
         return (
             <>
                 <div className="header dashboard">
                 
-                    <div className="container-fluid h-100">
+                    <div className="container-fluid">
                         <div className="row">
                             <div className="col-xl-12">
                                 <nav className="navbar navbar-expand-lg navbar-light px-0 justify-content-between h-100">
-                                    <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="50"/></Link>
+                                    <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="55"/></Link>
     
                                     <div className="header-right d-flex my-2" >
                                         <span className="align-self-center" style={{marginRight: '10px'}}>Connection Status:</span>
@@ -42,7 +43,7 @@ function Header2(props) {
         )
     } 
     // eslint-disable-next-line
-    else if (account && props.isPswapAuthorized && props.loaded == true ) 
+    else if (account && props.isPswapAuthorized && props.loaded == true && props.correctChainId) 
     
     {
     
@@ -50,11 +51,11 @@ function Header2(props) {
             <>
                 <div className="header dashboard">
                 
-                    <div className="container-fluid h-100">
+                    <div className="container-fluid">
                         <div className="row">
                             <div className="col-xl-12">
                                 <nav className="navbar navbar-expand-lg navbar-light px-0 justify-content-between h-100">
-                                    <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="50"/></Link>
+                                    <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="55"/></Link>
     
                                     <div className="header-right d-flex my-2" >
                                         <span className="align-self-center" style={{marginRight: '10px'}}>Connection Status:</span>
@@ -73,7 +74,7 @@ function Header2(props) {
         )
     } 
     
-    else if (account && !props.isPswapAuthorized) 
+    else if (account && !props.isPswapAuthorized && props.correctChainId) 
     
     {
     
@@ -81,11 +82,11 @@ function Header2(props) {
             <>
                 <div className="header dashboard">
                 
-                    <div className="container-fluid h-100">
+                    <div className="container-fluid">
                         <div className="row">
                             <div className="col-xl-12">
                                 <nav className="navbar navbar-expand-lg navbar-light px-0 justify-content-between h-100">
-                                    <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="50"/></Link>
+                                    <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="55"/></Link>
     
                                     <div className="header-right d-flex my-2" >
                                         <span className="align-self-center" style={{marginRight: '10px'}}>Connection Status:</span>
@@ -102,7 +103,67 @@ function Header2(props) {
                 </div>
             </>
         )
-    } 
+    } else if (account && props.isPswapAuthorized && !props.correctChainId) 
+    
+    {
+    
+        return (
+            <>
+            <div className="header dashboard">
+                
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-xl-12">
+                            <nav className="navbar navbar-expand-lg navbar-light px-0 justify-content-between h-100">
+                                <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="55"/></Link>
+
+                                <div className="header-right d-flex my-2" >
+                                        <span className="align-self-center" style={{marginRight: '10px'}}>Connection Status:</span>
+                                        <div className="btn btn-danger align-self-center" style={{marginRight: '10px', width: '150px'}}>Not Connected</div>
+                                        <span className="align-self-center" style={{marginRight: '10px'}} >Welcome User:</span>
+                                        <img src={require('./../../images/blank-profile.png')} alt="" width="35" style={{marginRight: '10px'}}/>
+                                        <span className="align-self-center" style={{marginRight: '10px'}}>Authorized Status:</span>
+                                        <div className="btn btn-info blink_me align-self-center" onClick={ props.connectWeb3 } style={{marginRight: '10px', width: '150px'}}>Connect</div> 
+                                    </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+        )
+    }
+    
+    else if (account && !props.isPswapAuthorized && !props.correctChainId) 
+    
+    {
+    
+        return (
+            <>
+            <div className="header dashboard">
+                
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-xl-12">
+                            <nav className="navbar navbar-expand-lg navbar-light px-0 justify-content-between h-100">
+                                <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="55"/></Link>
+
+                                <div className="header-right d-flex my-2" >
+                                        <span className="align-self-center" style={{marginRight: '10px'}}>Connection Status:</span>
+                                        <div className="btn btn-danger align-self-center" style={{marginRight: '10px', width: '150px'}}>Not Connected</div>
+                                        <span className="align-self-center" style={{marginRight: '10px'}} >Welcome User:</span>
+                                        <img src={require('./../../images/blank-profile.png')} alt="" width="35" style={{marginRight: '10px'}}/>
+                                        <span className="align-self-center" style={{marginRight: '10px'}}>Authorized Status:</span>
+                                        <div className="btn btn-info blink_me align-self-center" onClick={ props.connectWeb3 } style={{marginRight: '10px', width: '150px'}}>Connect</div> 
+                                    </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+        )
+    }
     
     else
     
@@ -111,11 +172,11 @@ function Header2(props) {
         <>
             <div className="header dashboard">
                 
-                <div className="container-fluid h-100">
+                <div className="container-fluid">
                     <div className="row">
                         <div className="col-xl-12">
                             <nav className="navbar navbar-expand-lg navbar-light px-0 justify-content-between h-100">
-                                <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="50"/></Link>
+                                <Link className="navbar-brand" to={"./"}><img src={require('./../../images/logo.png')} alt="" width="55"/></Link>
 
                                 <div className="header-right d-flex my-2" >
                                         <span className="align-self-center" style={{marginRight: '10px'}}>Connection Status:</span>
@@ -123,7 +184,7 @@ function Header2(props) {
                                         <span className="align-self-center" style={{marginRight: '10px'}} >Welcome User:</span>
                                         <img src={require('./../../images/blank-profile.png')} alt="" width="35" style={{marginRight: '10px'}}/>
                                         <span className="align-self-center" style={{marginRight: '10px'}}>Authorized Status:</span>
-                                        <div className="btn btn-danger align-self-center" style={{marginRight: '10px', width: '150px'}}>Not Connected</div> 
+                                        <div className="btn btn-info blink_me align-self-center" onClick={ props.connectWeb3 } style={{marginRight: '10px', width: '150px'}}>Connect</div> 
                                     </div>
                             </nav>
                         </div>

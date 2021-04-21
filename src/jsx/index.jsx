@@ -7,62 +7,120 @@ import { nfmContractABI, nfmContractAddress } from "../data/nfmContractABI"
 import { pswapLiquidityABI, psawpContractAddress } from "../data/pswapLiquidityABI";
 import Homepage from './pages/index'
 import Dashboard from './pages/dashboard'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 class Index extends Component {
 
   async componentDidMount() {
-    await this.loadWeb3()
-    await this.getData()
+  //  await this.loadWeb3()
+  //  await this.getData()
   }
 
-  async loadWeb3() {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.enable()
-    }
-    else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    }
-    else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetMask!')
-    }
-  }
+  async connectWeb3() {
+    const wrongChain = (payload) => toast.dark('⛓️ Plese connect to the Binance Test Net ChainID 97 to enable this App', {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      })
 
-  async getData() {
-    const web3 = window.web3
-    if (web3) {
-      this.setState({ web3 })
-      const accounts = await web3.eth.getAccounts()
-      const account = accounts[0]
-      //Set the state of the account to pass to the dashboard (user identifcation)
-      this.setState({ account })
-      const isPswapAuthorized = await this.isPswapAuthorized()
-      this.setState({isPswapAuthorized})
-      const nfmContract = new web3.eth.Contract(nfmContractABI,nfmContractAddress)
-      this.setState({nfmContract})
-      const totalSupply = await nfmContract.methods.totalSupply().call()
-      this.setState({totalSupply})
-      const cards = []
-      for (let i = 0; i < totalSupply; i++) {
-        const card = {}
-        const data = await nfmContract.methods.meme(i).call()
-        const cardNumber = data[1].toString()
-        card.cardNumber = cardNumber
-        const ownerOfCard = await nfmContract.methods.ownerOf(i).call()
-        card.ownerOfCard = ownerOfCard
-        card.name = CardData[cardNumber - 1].cardName
-        card.text = CardData[cardNumber - 1].cardText
-        card.rarity = CardData[cardNumber - 1].cardRarity
-        card.fileName = CardData[cardNumber - 1].fileName
-        card.badges = []
-
-        cards.push(card)
     
-      this.setState({cards})
-      }
-      this.setState({loaded: true})
+    if (window.ethereum) {
+        try {
+            const accounts = await window.ethereum.request({
+                method: 'eth_requestAccounts'
+            });
+            if (accounts.length === 0) {
+                // MetaMask is locked or the user has not connected any accounts
+                console.log('Please connect to MetaMask, or Connect an account');
+            } else {
+                this.setState({
+                    accounts
+                })
+                const account = await window.ethereum.selectedAddress
+                this.setState({ account })
+                
+            }
+            const web3 = new Web3(window.ethereum)
+            this.setState({
+                web3
+            })
+            const balance = await web3.eth.getBalance(this.state.account)
+            // 97 test net 56 main net
+            const chainId = await window.ethereum.request({
+                method: 'eth_chainId'
+            })
+            // eslint-disable-next-line
+            const correctChainId = chainId == 97
+            this.setState({ correctChainId })
+            if (!correctChainId) {
+              wrongChain()
+              return
+            }
+            window.ethereum.on('accountsChanged', function (accounts) {
+                // Time to reload the interface interface
+                window.location.reload()
+            })
+            window.ethereum.on('chainChanged', function (networkId) {
+                // We recommend reloading the page, unless you must do otherwise
+                window.location.reload()
+            })
+             
+            await this.getData(web3)
+        } catch (error) {
+            if (error.code === 4001) {
+                // User rejected request
+            }
+
+            console.log(error)
+        }
+    } else {
+        window.alert('Non-Ethereum browser detected. You should consider trying MetMask!')
     }
-  }
+}
+
+async getData(web3) {
+        if (web3) {
+            try {
+                const nfmContract = new web3.eth.Contract(nfmContractABI, nfmContractAddress)
+                const psawpContract = new web3.eth.Contract(pswapLiquidityABI, psawpContractAddress)
+                const totalSupply = await nfmContract.methods.totalSupply().call()
+                const isPswapAuthorized = await this.isPswapAuthorized()
+                this.setState({nfmContract, psawpContract, totalSupply, isPswapAuthorized})
+                if (this.state.cards.length === 0 || this.state.totalSupply < totalSupply) {
+                    const cards = []
+                    for (let i = 0; i < totalSupply; i++) {
+                        const card = {}
+                        const data = await nfmContract.methods.meme(i).call()
+                        const cardNumber = data[1].toString()
+                        card.cardNumber = cardNumber
+                        const ownerOfCard = await nfmContract.methods.ownerOf(i).call()
+                        card.ownerOfCard = ownerOfCard.toLowerCase()
+                        card.name = CardData[cardNumber - 1].cardName
+                        card.text = CardData[cardNumber - 1].cardText
+                        card.rarity = CardData[cardNumber - 1].cardRarity
+                        card.fileName = CardData[cardNumber - 1].fileName
+                        card.badges = []
+                        cards.push(card)
+
+                        this.setState({
+                            cards
+                        })
+                    }
+                    this.setState({loaded: true})
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+}
+
+
 
   async isPswapAuthorized() {
     const account = this.state.account
@@ -105,6 +163,15 @@ class Index extends Component {
   }
 
   async updateCardsArray(num) {
+    const newCard = (card) => toast.success(`New Card Added: ${card.name} Number: ${card.cardNumber}`, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      })
     const currentCards = this.state.cards
     // eslint-disable-next-line
     const allMyCards = currentCards.filter((item => item.ownerOfCard == this.account))
@@ -142,12 +209,13 @@ class Index extends Component {
       const cardNumber = data[1].toString()
       card.cardNumber = cardNumber
       const ownerOfCard = await this.state.nfmContract.methods.ownerOf(i).call()
-      card.ownerOfCard = ownerOfCard
+      card.ownerOfCard = ownerOfCard.toLowerCase()
       card.name = CardData[cardNumber - 1].cardName
       card.text = CardData[cardNumber - 1].cardText
       card.rarity = CardData[cardNumber - 1].cardRarity
       card.fileName = CardData[cardNumber - 1].fileName
       card.badges = [{badge: 'New', color: "success"}]
+      newCard(card)
       newCards.push(card)
     }
     currentCards.push(...newCards)
@@ -156,7 +224,7 @@ class Index extends Component {
   }
 
 
-
+  
   
 
 
@@ -168,15 +236,18 @@ class Index extends Component {
     super(props)
     this.state = {
       account: '',
-      nfmContact: null,
-      totalSupplt: 0,
+      nfmContract: null,
+      psawpContract: null,
+      totalSupply: 0,
       web3: "",
       cards: [],
       loaded: false,
+      connectWeb3: this.connectWeb3.bind(this),
       getPswapAuthorized: this.getPswapAuthorized.bind(this),
       getRandomCard: this.getRandomCard.bind(this),
       getRandomCardPack: this.getRandomCardPack.bind(this),
-      isPswapAuthorized: false
+      isPswapAuthorized: false,
+      correctChainId: false
     }
   }
 
@@ -185,6 +256,17 @@ class Index extends Component {
       <>
         <BrowserRouter basename={'/'}>
           <div id="main-wrapper">
+          <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+          />
             <Switch>
               <Route path="/" exact render={props => <Homepage
                 {...props}
@@ -194,7 +276,10 @@ class Index extends Component {
                 {...props}
                 cards={this.state.cards}
                 account={this.state.account}
+                accounts={this.state.accounts}
                 loaded={this.state.loaded}
+                connectWeb3={this.state.connectWeb3}
+                correctChainId={this.state.correctChainId}
                 getPswapAuthorized={this.state.getPswapAuthorized}
                 isPswapAuthorized={this.state.isPswapAuthorized}
                 getRandomCard={this.state.getRandomCard}

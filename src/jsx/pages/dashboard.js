@@ -8,6 +8,12 @@ import Sidebar from '../layout/sidebar'
 
 function Dashboard(props) {
     const account = props.account
+    if (props.cards.length > 112) {
+        console.log(props.cards[40].ownerOfCard)
+        console.log(account)
+        console.log(props.accounts);
+    }
+    
     // eslint-disable-next-line
     const allMyCards = props.cards.filter((item => item.ownerOfCard == props.account))
     let myCards

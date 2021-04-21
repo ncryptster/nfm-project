@@ -31,7 +31,7 @@ function Homepage(props) {
                             </div>
 
                             <div className="intro-btn">
-                                <Link to={'./blank'} className="btn btn-primary">Get Started</Link>
+                                <Link to={''} className="btn btn-primary">Get Started</Link>
 
                             </div>
                         </div>
@@ -129,7 +129,7 @@ function Homepage(props) {
                                     <h4 className="card-title">Collect</h4>
                                     <p>Be the FIRST to unlock each card and be the "Original Owner". Flex your NERD and be the first to collect the whole set.</p>
 
-                                    <Link to={'./blank'}> Know More <i className="la la-arrow-right"></i> </Link>
+                                    <Link to={''}> Comming Soon <i className="la la-arrow-right"></i> </Link>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +140,7 @@ function Homepage(props) {
                                     <h4 className="card-title">Trade</h4>
                                     <p>Have friends that own a card that you don't? Make an OFFER of TRADE for a card they don't have and if they accept, it's all yours.</p>
 
-                                    <Link to={'./blank'}> Know More <i className="la la-arrow-right"></i> </Link>
+                                    <Link to={''}> Comming Soon <i className="la la-arrow-right"></i> </Link>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +151,7 @@ function Homepage(props) {
                                     <h4 className="card-title">Market</h4>
                                     <p>Have a card that no one else does? Want to sell your cards? Just list it on the marketplace for your asking price and see if there are any takers.</p>
 
-                                    <Link to={'./blank'}> Know More <i className="la la-arrow-right"></i> </Link>
+                                    <Link to={''}> Comming Soon <i className="la la-arrow-right"></i> </Link>
                                 </div>
                             </div>
                         </div>
