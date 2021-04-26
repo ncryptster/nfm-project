@@ -79,7 +79,7 @@ class Index extends Component {
             console.log(error)
         }
     } else {
-        window.alert('Non-Ethereum browser detected. You should consider trying MetMask!')
+        window.alert('Non-Ethereum browser detected. You should consider using MetMask!')
     }
 }
 
