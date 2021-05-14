@@ -2,4 +2,4 @@ export const pswapLiquidityABI=[{"inputs":[],"payable":false,"stateMutability":"
 //test
 //export const psawpContractAddress = '0xA30aD46BA266B31Cd68fA244B91b8497285Ba3A4'
 //production
-export const psawpContractAddress = '0xBD539D678De5aA2bed2681f6AcA8dfD3a73ec49f'
+export const psawpContractAddress = '0x78f0Ee8463dd9cfBC13E6BdA9B3807F137e947bf'
