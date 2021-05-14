@@ -424,6 +424,6 @@ export const nfmContractABI = [{
     "type": "receive"
 }]
 //test
-export const nfmContractAddress = '0x70640efC12b629b4aAd6502876F1CefedE910E95'
+//export const nfmContractAddress = '0x70640efC12b629b4aAd6502876F1CefedE910E95'
 //production
-//export const nfmContractAddress = '0x55a6E2488B9aEF2372c888c6886688f714203b8C'
+export const nfmContractAddress = '0x55a6E2488B9aEF2372c888c6886688f714203b8C'
