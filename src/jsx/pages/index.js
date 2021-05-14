@@ -9,11 +9,7 @@ import Footer1 from '../layout/footer1'
 
 
 function Homepage(props) {
-    let cards = props.cards
-    cards.sort(function (a, b) {
-        return a.cardNumber - b.cardNumber;
-      })
-    cards = getUniqueListBy(cards, 'cardNumber') 
+    let tokens = props.user.fullSet
     return (
         <>
             <Header1 />
@@ -25,7 +21,7 @@ function Homepage(props) {
                     <div className="row justify-content-between align-items-center">
                         <div className="col-xl-6 col-lg-6 col-12">
                             <div className="intro-content">
-                                <h1>Roll for Collectable Meme Cards with <strong className="text-primary">NonFungibleMeme.App</strong>. <br /> Take you chance NOW!
+                                <h1 className="text-responsive">Collectable Meme Cards<br /><strong className="text-primary">NonFungibleMeme.App</strong> <br /> Take you chance NOW!
                             </h1>
                                 <p>Can you be the the first to collect each card? Can you collect the whole set? Trade with others for their cards or sell them on the marketplace.</p>
                             </div>
@@ -37,7 +33,7 @@ function Homepage(props) {
                         </div>
                         <div className="col-xl-5 col-lg-6 col-12 justify-content-center">
                             <div className="Blank Card">
-                                <img src={require('./../../images/empty-card.png')} alt="" width="300" />
+                                <img src={require('./../../images/main.png')} className="img-fluid" alt="" width="500" />
                             </div>
                         </div>
                     </div>
@@ -116,7 +112,7 @@ function Homepage(props) {
                         <div className="col-xl-6">
                             <div className="section-title text-center">
                                 <h2>Collect Trade Sell</h2>
-                                <p> Each released set will contain 60 diffenet cards ranging in rarity from COMMON, RARE, EPIC, and LEGENDAY. The odds of getting each teir increases.
+                                <p> Each released set will contain 60 diffenet cards ranging in rarity from COMMON, RARE, EPIC, and LEGENDARY. The odds of getting each teir increases.
                             </p>
                             </div>
                         </div>
@@ -129,7 +125,7 @@ function Homepage(props) {
                                     <h4 className="card-title">Collect</h4>
                                     <p>Be the FIRST to unlock each card and be the "Original Owner". Flex your NERD and be the first to collect the whole set.</p>
 
-                                    <Link to={''}> Comming Soon <i className="la la-arrow-right"></i> </Link>
+                                    <Link to={'./Dashboard'}> Start Now! <i className="la la-arrow-right"></i> </Link>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +136,7 @@ function Homepage(props) {
                                     <h4 className="card-title">Trade</h4>
                                     <p>Have friends that own a card that you don't? Make an OFFER of TRADE for a card they don't have and if they accept, it's all yours.</p>
 
-                                    <Link to={''}> Comming Soon <i className="la la-arrow-right"></i> </Link>
+                                    <Link to={''}> Coming Soon <i className="la la-arrow-right"></i> </Link>
                                 </div>
                             </div>
                         </div>
@@ -151,7 +147,7 @@ function Homepage(props) {
                                     <h4 className="card-title">Market</h4>
                                     <p>Have a card that no one else does? Want to sell your cards? Just list it on the marketplace for your asking price and see if there are any takers.</p>
 
-                                    <Link to={''}> Comming Soon <i className="la la-arrow-right"></i> </Link>
+                                    <Link to={'./Marketplace'}> Trade Now! <i className="la la-arrow-right"></i> </Link>
                                 </div>
                             </div>
                         </div>
@@ -165,7 +161,7 @@ function Homepage(props) {
                     <div className="row justify-content-center">
                         <div className="col-xl-6">
                             <div className="section-title">
-                                <h2>Curently Discovered Cards: {cards.length} / 60</h2>
+                                <h2>Curently Discovered Cards: {tokens.length} / 60</h2>
 
                             </div>
                         </div>
@@ -173,7 +169,7 @@ function Homepage(props) {
                     <div className="row justify-content-center">
                         <div className="col-xl-10">
                             <div className="testimonial-content">
-                            <CardExplorer {...props} cards = {cards}/>
+                            <CardExplorer {...props} user = {props.user}/>
                             </div>
                         </div>
                     </div>
@@ -231,9 +227,7 @@ function Homepage(props) {
     )
 }
 
-function getUniqueListBy(arr, key) {
-    return [...new Map(arr.map(item => [item[key], item])).values()]
-}
+
 export default Homepage;
 
 

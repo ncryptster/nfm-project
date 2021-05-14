@@ -16495,5 +16495,17 @@ label.error {
     opacity: 0;
   }
 }
+.text-responsive {
+  font-size: calc(100% + 1vw + 1vh);
+}
+
+
+.Toastify__toast {
+  border-radius: 20px; 
+  }
+
+.modal-dark .modal-content {
+  background-color: #131722;
+}
 
 /*# sourceMappingURL=style.css.map */

@@ -4,8 +4,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 function CardExplorer(props) {
-    const currentlyDiscovered = props.cards  
-         var settings = {
+    const currentlyDiscovered = props.user.fullSet  
+    var settings = {
         dots: false,
         infinite: true,
         speed: 500,
@@ -17,23 +17,24 @@ function CardExplorer(props) {
         <Slider {...settings} >
         
             {currentlyDiscovered.map((i, key) => ( 
+                
                     <div key={key}>
                     <div className="row align-items-center" >
                         <div className="col-xl-6 col-lg-6">
                             <div className="customer-img">
                                 {/* This will be the card picture side */}
-                                <img className="img-fluid" src={require('../../images/cards/'+ i.fileName)} alt="" width="400" />
+                                <img className="img-fluid" src={require('../../images/cards/'+ i.card.fileName)} alt="" width="400" />
                             </div>
                         </div>
                         <div className="col-xl-6 col-lg-6">
                             <div className="card-info">
-                                <h4>Card Name: {i.name}</h4>
+                                <h4>Card Name: {i.card.cardName}</h4>
                                 <hr />
-                                <h4>Card Set Number: {i.cardNumber} / 60</h4>
+                                <h4>Card Set Number: {i.card.cardNumber} / 60</h4>
                                 <hr />
-                                <h4>Card Rarity: {i.rarity}</h4>
+                                <h4>Card Rarity: {i.card.cardRarity}</h4>
                                 <hr />
-                                <h4>Card Text: "{i.text}"</h4>
+                                <h4>Card Text: "{i.card.cardText}"</h4>
                                 <hr />
                             </div>
                         </div>

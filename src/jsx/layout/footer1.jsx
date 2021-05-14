@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 
 function Footer1() {
-
     return (
         <>
             <div className="footer">
@@ -18,10 +17,9 @@ function Footer1() {
                         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div className="footer-social">
                                 <ul>
-                                    <li><Link to={'#'}><i className="fa fa-facebook"></i></Link></li>
-                                    <li><Link to={'#'}><i className="fa fa-twitter"></i></Link></li>
-                                    <li><Link to={'#'}><i className="fa fa-linkedin"></i></Link></li>
-                                    <li><Link to={'#'}><i className="fa fa-youtube"></i></Link></li>
+                                    <li><a href={'https://t.me/joinchat/GbsJTTX4O4YxZDlh'}><i className="fa fa-telegram"></i></a></li>
+                                    <li><a href={'https://twitter.com/NFMplatform'}><i className="fa fa-twitter"></i></a></li>
+                                    <li><a href={'https://www.reddit.com/r/NonFungibleMemes/new/'}><i className="fa fa-reddit"></i></a></li>
                                 </ul>
                             </div>
                         </div>

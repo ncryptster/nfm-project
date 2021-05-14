@@ -16,6 +16,7 @@ function Header1() {
                             <div className="navigation">
                                 <Navbar bg="light" expand="lg">
                                     <Link className="navbar-brand" to={'/'}><img src={require('./../../images/logo.png')} alt="" width="75" /></Link>
+                                    <img src={require('./../../images/download.png')} alt="" width="225" />
                                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                                     <Navbar.Collapse>
                                         <ScrollspyNav
