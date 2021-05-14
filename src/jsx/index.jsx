@@ -118,7 +118,7 @@ class Index extends Component {
           method: "eth_chainId",
         });
         // eslint-disable-next-line
-        const correctChainId = chainId == 97;
+        const correctChainId = chainId == 56;
         if (!correctChainId) {
           wrongChain();
           return;
