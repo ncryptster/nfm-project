@@ -88,7 +88,7 @@ export default function Collection(props) {
 
         <div
           className="row"
-          style={{ marginTop: "20px", marginLeft: "2px", marginRight: "2px" }}
+          style={{ marginTop: "20px", marginLeft: "2px", marginRight: "2px", width: '100%'}}
         >
           {display.map((obj, key) => (
             <div className="col-xl-2 col-lg-6 col-md-6 col-xxl-6" key={key}>

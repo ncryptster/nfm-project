@@ -1,28 +1,19 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Web3 from "web3";
-import CardData from "../data/cardData";
 import seedPhrase from "../data/seedPhrase";
-import { nfmContractABI, nfmContractAddress } from "../data/nfmContract";
-import { nfmtContractABI, nfmtContractAddress } from "../data/nfmtContract";
-import {
-  pswapLiquidityABI,
-  psawpContractAddress,
-} from "../data/pswapLiquidity";
-import {
-  marketplaceABI,
-  marketplaceContractAddress,
-} from "../data/marketplace";
+import { nfmContractABI, nfmContractAddress } from "../data/production/nfmContract";
+import { nfmtContractABI, nfmtContractAddress } from "../data/production/nfmtContract";
+import { pswapLiquidityABI, psawpContractAddress, } from "../data/production/pswapLiquidity";
+import { marketplaceABI, marketplaceContractAddress, } from "../data/production/marketplace";
+import { nfmViewerContractABI, nfmViewerContractAddress, } from "../data/production/nfmViewerContract";
 import Homepage from "./pages/index";
 import Dashboard from "./pages/dashboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Marketplace from "./pages/marketplace";
-import { Card, Form, Col, Button } from "react-bootstrap";
-import {
-  nfmViewerContractABI,
-  nfmViewerContractAddress,
-} from "../data/nfmViewerContract";
+import fetch from "node-fetch";
+
 
 class Index extends Component {
   async connectWeb3() {
@@ -153,10 +144,11 @@ class Index extends Component {
   async getData(web3) {
     if (web3) {
       try {
-        const nfmVieverContract = new web3.eth.Contract(
-          nfmViewerContractABI,
-          nfmViewerContractAddress
-        );
+        await this.syncDatabase()
+        // const nfmViewerContract = new web3.eth.Contract(
+        //   nfmViewerContractABI,
+        //   nfmViewerContractAddress
+        // );
         const nfmContract = new web3.eth.Contract(
           nfmContractABI,
           nfmContractAddress
@@ -174,29 +166,44 @@ class Index extends Component {
           nfmContractABI,
           nfmtContractAddress
         );
-        const totalSupply = await nfmContract.methods.totalSupply().call();
+        this.setState({
+          // nfmViewerContract,
+          marketplaceContract,
+          nfmContract,
+          nfmtContract,
+          psawpContract,
+        })
         const isAuthorized = await this.isAuthorized();
         const isMarketAuthorized = await this.isMarketAuthorized();
         const cakeLpBalance = (Math.trunc((await psawpContract.methods.balanceOf(this.state.account).call() / 1000000000000000000)*100)/100).toFixed(2)
         const nfmtBalance = (Math.trunc((await nfmtContract.methods.balanceOf(this.state.account).call() / 1000000000000000000)*100)/100).toFixed(2)
         this.setState({
-          nfmVieverContract,
-          marketplaceContract,
-          nfmContract,
-          nfmtContract,
-          psawpContract,
-          totalSupply,
-          isAuthorized,
-          isMarketAuthorized,
-          cakeLpBalance,
-          nfmtBalance
+          
+         isAuthorized,
+         isMarketAuthorized,
+         cakeLpBalance,
+         nfmtBalance
         });
-        await this.createTokenMaster();
         this.createUserData();
       } catch (error) {
         console.log(error);
       }
     }
+  }
+
+  async updateToken(tokenId) {
+    //const patch = await fetch(`http://localhost:5000/tokens/${tokenId}`, {method: 'PATCH'})
+    const patch = await fetch(`https://nfmt-backend.herokuapp.com/tokens/${tokenId}`, {method: 'PATCH'})
+
+  }
+
+  async syncDatabase() {
+    const sync = await fetch('https://nfmt-backend.herokuapp.com/tokens', {method: 'POST'})
+    const result = await fetch('https://nfmt-backend.herokuapp.com/tokens', {method: 'GET'})
+    // const sync = await fetch('http://localhost:5000/tokens', {method: 'POST'})
+    // const result = await fetch('http://localhost:5000/tokens', {method: 'GET'})
+        const data = await result.json()
+        this.setState({ allTokenData: data })
   }
 
   createUserData() {
@@ -205,6 +212,7 @@ class Index extends Component {
         token.tokenOwner.toLowerCase() == this.state.account.toLocaleLowerCase()
       );
     });
+    
     const fullSet = [
       ...new Map(this.state.allTokenData.map((item) => [item.card.cardName, item])).values(),
     ];
@@ -321,75 +329,11 @@ class Index extends Component {
         cancelListing: this.cancelListing.bind(this),
       },
     };
+    console.log('the user should change now');
     this.setState({ user });
   }
 
-  async createTokenMaster() {
-    /*************************************************************************************************
-     * @desc creates a master list of tokens
-     * *@param array tokenData - array of data from the nfmContract
-     * * *@param string determination - number of card determined by blockchain
-     * * *@param string get - random number used to make determination
-     * * *@param string ipfs - Inter Planetary File System representation of the determined card
-     * * *@param string rarity - The rarity of the determinded card
-     * *@param array marketData - array of data from the marketPlaceContract
-     * * *@param string index - index of the listing on the marketplace
-     * * *@param string price - price token is listed for on the marketplace
-     * * *@param string seller - address of the seller of the listed token on the marketplace
-     * * *@param string tokenID - index of the token in the @param array tokenData
-     * @reutrn array - a detailed array of tokens
-     *************************************************************************************************/
-    let result = [];
-    const ownerData = await this.state.nfmVieverContract.methods
-      .seeAllOwners()
-      .call();
-    const tokenData = await this.state.nfmVieverContract.methods
-      .seeAllListingInfo()
-      .call();
-    const marketData = await this.state.marketplaceContract.methods
-      .seeAllListingInfo()
-      .call();
-    for (let tokenId = 0; tokenId < tokenData.length; tokenId++) {
-      const isListedForSale = () => {
-        let listing = { listed: false, seller: "", price: "" };
-        let verify = marketData.filter((listing) => {
-          return listing.tokenID == tokenId;
-        });
-        if (verify.length > 0) {
-          listing = {
-            listed: true,
-            seller: verify[0].seller,
-            price: verify[0].price,
-          };
-        }
-        return listing;
-      };
-      const cardData = () => {
-        const data = CardData.filter((card) => {
-          return card.cardNumber == tokenData[tokenId].determination;
-        });
-        return data[0];
-      };
-      const token = {
-        tokenId: tokenId,
-        tokenOwner: ownerData[tokenId],
-        approvedForSale: false,
-        listing: isListedForSale(),
-        approvedForTrade: false,
-        listedForTrade: false,
-        card: {
-          cardNumber: cardData().cardNumber,
-          cardName: cardData().cardName,
-          cardText: cardData().cardText,
-          cardRarity: cardData().cardRarity,
-          fileName: cardData().fileName,
-        },
-      };
-      result.push(token);
-    }
-    this.setState({ allTokenData: result });
-  }
-
+  
   async isMarketAuthorized() {
     let authorized = { authorized: false, balance: "0" };
     const account = this.state.account;
@@ -412,11 +356,7 @@ class Index extends Component {
   async isAuthorized() {
     let authorized = { authorized: false, balance: "0" };
     const account = this.state.account;
-    const psawpContract = new this.state.web3.eth.Contract(
-      pswapLiquidityABI,
-      psawpContractAddress
-    );
-    const approvedFor = await psawpContract.methods
+    const approvedFor = await this.state.psawpContract.methods
       .allowance(account, nfmContractAddress)
       .call();
     // eslint-disable-next-line
@@ -537,6 +477,7 @@ class Index extends Component {
     }
     const isAuthorized = await this.isAuthorized();
     this.setState({ isAuthorized });
+    await this.syncDatabase()
     this.createUserData();
   }
 
@@ -574,7 +515,11 @@ class Index extends Component {
       }
       console.log(error);
     }
-
+    try {
+    const result = await this.syncDatabase()
+    } catch (err) {
+      console.error(err)
+    }
     this.createUserData();
   }
 
@@ -612,7 +557,12 @@ class Index extends Component {
       }
       console.log(error);
     }
-    this.createUserData();
+    try {
+      const result = await this.syncDatabase()
+      } catch (err) {
+        console.error(err)
+      }
+      this.createUserData();
   }
 
   async approveNFMForMarketplace(tokenID) {
@@ -666,15 +616,15 @@ class Index extends Component {
           gasPrice: gasPrice,
           gas: gasEstimate,
         });
-      cardApproved(tokenID);
-      this.priceCardBody(tokenID);
-      this.openPriceModal();
-    } catch (error) {
+        cardApproved(tokenID);
+      } catch (error) {
       if (error.code === 4001) {
         userReject();
       }
       console.log(error);
     }
+    await this.updateToken(tokenID)
+    await this.syncDatabase()
   }
 
   async listAMeme(tokenID, listAmount) {
@@ -735,70 +685,13 @@ class Index extends Component {
           gas: gasEstimate * 2,
         });
       cardListed(tokenID, listAmount);
+      await this.updateToken(tokenID)
+      await this.syncDatabase()
       this.createUserData();
     } catch (error) {
       if (error.code === 4001) {
         userReject();
       }
-    }
-  }
-
-  approveCardBody(userCards, card, action) {
-    let sizer = "";
-    if (action == "sell") {
-      const cardsForSale = userCards.filter(
-        (item) => item.cardNumber == card.cardNumber
-      );
-      if (cardsForSale.length == 1) {
-        sizer = "sm";
-      } else if (cardsForSale.length > 3) {
-        sizer = "lg";
-      } else {
-        sizer = "";
-      }
-      this.setState({
-        modalBody: {
-          render: (
-            <Form>
-              <Form.Row>
-                {cardsForSale.map((card, key) => (
-                  <Col
-                    key={key}
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <Card className="text-center">
-                      <Card.Body>
-                        <Card.Title>
-                          #: {card.cardNumber} Id: {card.cardId}
-                        </Card.Title>
-                        <img
-                          src={require("../images/cards/" + card.fileName)}
-                          alt=""
-                          width="125"
-                        />
-                      </Card.Body>
-
-                      <Card.Footer className="text-muted">
-                        <Button
-                          variant="secondary"
-                          onClick={(e) => {
-                            this.approveNFMForMarketplace(card.cardId);
-                            this.closeApproveModal();
-                          }}
-                        >
-                          Approve
-                        </Button>
-                      </Card.Footer>
-                    </Card>
-                  </Col>
-                ))}
-              </Form.Row>
-              <Form.Row></Form.Row>
-            </Form>
-          ),
-          size: sizer,
-        },
-      });
     }
   }
 
@@ -839,6 +732,8 @@ class Index extends Component {
           gasPrice: gasPrice,
           gas: gasEstimate * 2,
         });
+      await this.updateToken(tokenID)  
+      await this.syncDatabase()
       this.createUserData();
     } catch (error) {
       if (error.code === 4001) {
@@ -884,6 +779,8 @@ class Index extends Component {
           gasPrice: gasPrice,
           gas: gasEstimate * 2,
         });
+      await this.updateToken(tokenID)
+      await this.syncDatabase()
       this.createUserData();
     } catch (error) {
       if (error.code === 4001) {
@@ -896,7 +793,7 @@ class Index extends Component {
     this.state = {
       account: "",
       marketplaceContract: null,
-      nfmVieverContract: null,
+      nfmViewerContract: null,
       nfmContract: null,
       nfmtContract: null,
       psawpContract: null,
@@ -949,50 +846,11 @@ class Index extends Component {
           cancelListing: this.cancelListing.bind(this),
         },
       },
-      showPriceModal: false,
-      openPriceModal: this.openPriceModal.bind(this),
-      closePriceModal: this.closePriceModal.bind(this),
-      showApproveModal: false,
-      openApproveModal: this.openApproveModal.bind(this),
-      closeApproveModal: this.closeApproveModal.bind(this),
-      approveCardBody: this.approveCardBody.bind(this),
-      handleInputChange: this.handleInputChange.bind(this),
-      handleSubmit: this.handleSubmit.bind(this),
+      
     };
   }
 
-  openPriceModal() {
-    this.setState({ showPriceModal: true });
-  }
-
-  closePriceModal() {
-    this.setState({ showPriceModal: false });
-  }
-
-  openApproveModal() {
-    this.setState({ showApproveModal: true });
-  }
-
-  closeApproveModal() {
-    this.setState({ showApproveModal: false });
-  }
-
-  handleSubmit = (event, tokenID) => {
-    event.preventDefault();
-    const listAmount = this.state.price;
-    try {
-      this.listAMeme(tokenID, listAmount);
-      this.setState({ price: "" });
-    } catch (error) {}
-  };
-
-  handleInputChange = (event) => {
-    event.preventDefault();
-    const text = event.target.value;
-    this.setState({
-      price: text,
-    });
-  };
+  
   render() {
     return (
       <>
